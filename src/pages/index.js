@@ -1,24 +1,38 @@
-import React, { useReducer } from 'react';
+import React from 'react';
 import { Link } from 'gatsby';
 
 import Layout from '../components/layout';
 import SEO from '../components/seo';
-import reducer from '../reducer';
 import Search from '../components/search-form';
 
-const initialState = { recipe: {} };
+class IndexPage extends React.Component {
+  constructor(props) {
+    super(props);
 
-const IndexPage = () => {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  return (
-    <Layout>
-      <SEO title="Home" />
-      <h1>Recipe Depot</h1>
-      <p>If you need a killer recipe, look no futher.</p>
-      <Search onclick={() => dispatch()} />
-      <Link to="/page-2/">Go to page 2</Link>
-    </Layout>
-  );
-};
+    this.state = {
+      recipe: [],
+    };
+  }
+
+  handleChange(e) {
+    const { value } = e.target;
+    this.setState(value);
+  }
+
+  render() {
+    return (
+      <Layout>
+        <SEO title="Home" />
+        <h1>Recipe Depot</h1>
+        <p>If you need a killer recipe, look no futher.</p>
+        <Search
+          onChange={() => this.handleChange()}
+          onClick={() => this.handleClick()}
+        />
+        <Link to="/page-2/">Go to page 2</Link>
+      </Layout>
+    );
+  }
+}
 
 export default IndexPage;
