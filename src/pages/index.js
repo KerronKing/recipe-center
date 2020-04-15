@@ -1,22 +1,27 @@
-import React from 'react';
-import { Link } from 'gatsby';
+import React, { useReducer } from 'react';
 
 import Layout from '../components/layout';
 import SEO from '../components/seo';
 import Search from '../components/search-form';
+import addRecipe from '../action';
 
 class IndexPage extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      recipe: [],
-    };
+    this.state = { entry: '', };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(e) {
     const { value } = e.target;
-    this.setState(value);
+    this.setState({ entry: value, });
+  }
+
+  handleSubmit() {
+
   }
 
   render() {
@@ -26,10 +31,9 @@ class IndexPage extends React.Component {
         <h1>Recipe Depot</h1>
         <p>If you need a killer recipe, look no futher.</p>
         <Search
-          onChange={() => this.handleChange()}
-          onClick={() => this.handleClick()}
+          handleChange={this.handleChange}
+          handleSubmit={this.handleSubmit}
         />
-        <Link to="/page-2/">Go to page 2</Link>
       </Layout>
     );
   }
