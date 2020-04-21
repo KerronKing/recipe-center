@@ -1,15 +1,15 @@
-import React, { useReducer } from 'react';
-
+import React from 'react';
+import PropTypes from 'prop-types';
 import Layout from '../components/layout';
 import SEO from '../components/seo';
 import Search from '../components/search-form';
-import addRecipe from '../action';
+import { addRecipe } from '../action';
 
 class IndexPage extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { entry: '', };
+    this.state = { entry: '' };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -17,11 +17,18 @@ class IndexPage extends React.Component {
 
   handleChange(e) {
     const { value } = e.target;
-    this.setState({ entry: value, });
+    this.setState({ entry: value });
   }
 
-  handleSubmit() {
+  handleSubmit(e) {
+    const { entry } = this.state;
+    const { history } = this.props;
 
+    e.preventDefault();
+    addRecipe(entry)
+      .then(() => {
+        history.push('/page-2/');
+      });
   }
 
   render() {
@@ -29,7 +36,7 @@ class IndexPage extends React.Component {
       <Layout>
         <SEO title="Home" />
         <h1>Recipe Depot</h1>
-        <p>If you need a killer recipe, look no futher.</p>
+        <p>If you need a killer recipe, look no further.</p>
         <Search
           handleChange={this.handleChange}
           handleSubmit={this.handleSubmit}
@@ -38,5 +45,15 @@ class IndexPage extends React.Component {
     );
   }
 }
+
+IndexPage.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.shape.isRequired,
+  }),
+};
+
+IndexPage.defaultProps = {
+  history: PropTypes.shape,
+};
 
 export default IndexPage;
