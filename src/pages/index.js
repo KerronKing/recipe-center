@@ -1,15 +1,20 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import axios from 'axios';
 import Layout from '../components/layout';
 import SEO from '../components/seo';
 import Search from '../components/search-form';
-import { addRecipe } from '../action';
 
 class IndexPage extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { entry: '' };
+    this.state = {
+      entry: '',
+      id: '',
+      title: '',
+      readyTime: '',
+      url: '',
+    };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -21,17 +26,47 @@ class IndexPage extends React.Component {
   }
 
   handleSubmit(e) {
-    const { entry } = this.state;
-    const { history } = this.props;
-
     e.preventDefault();
-    addRecipe(entry)
-      .then(() => {
-        history.push('/page-2/');
+
+    const { entry } = this.state;
+    const apiKey = '8efcbcb1d5694a4e8f6efe8954092370';
+
+    axios({
+      method: 'get',
+      url: `https://api.spoonacular.com/recipes/search?&apiKey=${apiKey}&query=${entry}&number=1`,
+    })
+      .then(response => {
+        this.setState({
+          id: response.data.results[0].id,
+          title: response.data.results[0].title,
+          readyTime: response.data.results[0].readyInMinutes,
+          url: response.data.results[0].sourceUrl,
+        });
       });
   }
 
   render() {
+    const {
+      id,
+      title,
+      readyTime,
+      url,
+    } = this.state;
+
+    const src = `https://spoonacular.com/recipeImages/${id}-240x150.jpg`;
+
+    const img = id && <img src={src} alt="recipe" />;
+    const link = url
+    && (
+    <p>
+      See the full recipe
+      {' '}
+      <a href={url}>
+        here
+      </a>
+    </p>
+    );
+
     return (
       <Layout>
         <SEO title="Home" />
@@ -41,19 +76,13 @@ class IndexPage extends React.Component {
           handleChange={this.handleChange}
           handleSubmit={this.handleSubmit}
         />
+        <p>{title}</p>
+        <p>{readyTime}</p>
+        {img}
+        {link}
       </Layout>
     );
   }
 }
-
-IndexPage.propTypes = {
-  history: PropTypes.shape({
-    push: PropTypes.shape.isRequired,
-  }),
-};
-
-IndexPage.defaultProps = {
-  history: PropTypes.shape,
-};
 
 export default IndexPage;

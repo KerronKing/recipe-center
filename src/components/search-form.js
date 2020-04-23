@@ -2,7 +2,7 @@ import React from 'react';
 import Proptypes from 'prop-types';
 
 const Search = ({ handleSubmit, handleChange }) => (
-  <form>
+  <form onSubmit={handleSubmit}>
     <label htmlFor="recipe">
       Search recipe:
       <input
@@ -14,7 +14,6 @@ const Search = ({ handleSubmit, handleChange }) => (
     </label>
     <button
       type="submit"
-      onSubmit={handleSubmit}
     >
       Search
     </button>
