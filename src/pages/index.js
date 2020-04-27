@@ -10,10 +10,7 @@ class IndexPage extends React.Component {
 
     this.state = {
       entry: '',
-      id: '',
-      title: '',
-      readyTime: '',
-      url: '',
+      recipes: [],
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -33,39 +30,15 @@ class IndexPage extends React.Component {
 
     axios({
       method: 'get',
-      url: `https://api.spoonacular.com/recipes/search?&apiKey=${apiKey}&query=${entry}&number=1`,
+      url: `https://api.spoonacular.com/recipes/search?&apiKey=${apiKey}&query=${entry}&number=10`,
     })
       .then(response => {
-        this.setState({
-          id: response.data.results[0].id,
-          title: response.data.results[0].title,
-          readyTime: response.data.results[0].readyInMinutes,
-          url: response.data.results[0].sourceUrl,
-        });
+        this.setState({ recipes: response.data.results });
       });
   }
 
   render() {
-    const {
-      id,
-      title,
-      readyTime,
-      url,
-    } = this.state;
-
-    const src = `https://spoonacular.com/recipeImages/${id}-240x150.jpg`;
-
-    const img = id && <img src={src} alt="recipe" />;
-    const link = url
-    && (
-    <p>
-      See the full recipe
-      {' '}
-      <a href={url}>
-        here
-      </a>
-    </p>
-    );
+    const { recipes } = this.state;
 
     return (
       <Layout>
@@ -76,10 +49,29 @@ class IndexPage extends React.Component {
           handleChange={this.handleChange}
           handleSubmit={this.handleSubmit}
         />
-        <p>{title}</p>
-        <p>{readyTime}</p>
-        {img}
-        {link}
+        <div className="recipe-area">
+          {recipes.map(recipe => (
+            <div key={recipe.id}>
+              <h2>{recipe.title}</h2>
+              <p>{recipe.readyInMinutes}</p>
+              <p>{recipe.servings}</p>
+              <p>
+                Click
+                {' '}
+                <a
+                  href={recipe.sourceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  here
+                </a>
+                {' '}
+                to see the full recipe instructions
+              </p>
+              <img src={`https://spoonacular.com/recipeImages/${recipe.id}-240x150.jpg`} alt="recipe depiction" />
+            </div>
+          ))}
+        </div>
       </Layout>
     );
   }
