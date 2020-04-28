@@ -1,20 +1,21 @@
 import React from 'react';
 import Proptypes from 'prop-types';
 
-const Search = ({ onClick, onChange }) => (
-  <form>
+const Search = ({ handleSubmit, handleChange }) => (
+  <form
+    onSubmit={handleSubmit}
+  >
     <label htmlFor="recipe">
       Search recipe:
       <input
         type="text"
         id="recipe"
         name="recipe"
-        onChange={onChange}
+        onChange={handleChange}
       />
     </label>
     <button
       type="submit"
-      onClick={onClick}
     >
       Search
     </button>
@@ -22,8 +23,8 @@ const Search = ({ onClick, onChange }) => (
 );
 
 Search.propTypes = {
-  onClick: Proptypes.func.isRequired,
-  onChange: Proptypes.func.isRequired,
+  handleSubmit: Proptypes.func.isRequired,
+  handleChange: Proptypes.func.isRequired,
 };
 
 export default Search;

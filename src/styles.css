@@ -1,0 +1,30 @@
+body {
+  height: 100vh;
+  margin: 0;
+}
+.opening img {
+  border-radius: 17px;
+  height: 600px;
+  margin-top: 3rem;
+  margin-left: 5rem;
+  width: 700px;
+}
+.title-section {
+  bottom: 35rem;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-size: 1.4rem;
+  left: 25rem;
+  position: relative;
+  text-align: center;
+}
+.hidden {
+  height: 0px;
+  visibility: hidden;
+  width: 0px
+}
+.visibility {
+  visibility: visible;
+}
+.recipe-area {
+  margin: 0 auto;
+}
