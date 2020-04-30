@@ -12,6 +12,7 @@ class IndexPage extends React.Component {
 
     this.state = {
       entry: '',
+      total: 1,
       visible: false,
       recipes: [],
     };
@@ -22,23 +23,32 @@ class IndexPage extends React.Component {
   }
 
   handleChange(e) {
-    const { value } = e.target;
-    this.setState({ entry: value });
+    const { value, id } = e.target;
+    if (id === 'recipe-input') {
+      this.setState({ entry: value });
+    } else {
+      this.setState({ total: value });
+    }
   }
 
   handleSubmit(e) {
     e.preventDefault();
 
-    const { entry } = this.state;
+    const { entry, total } = this.state;
     const apiKey = '8efcbcb1d5694a4e8f6efe8954092370';
 
     axios({
       method: 'get',
-      url: `https://api.spoonacular.com/recipes/search?&apiKey=${apiKey}&query=${entry}&number=10`,
+      url: `https://api.spoonacular.com/recipes/search?&apiKey=${apiKey}&query=${entry}&number=${total}`,
     })
       .then(response => {
         this.setState({ recipes: response.data.results });
         this.setState(prevState => ({ visible: !prevState.visible }));
+
+        const results = document.getElementById('recipe-section-title');
+        results.scrollIntoView({
+          behavior: 'smooth',
+        });
       });
   }
 
@@ -57,12 +67,14 @@ class IndexPage extends React.Component {
           <div className="title-section">
             <h1>Recipe Depot</h1>
             <p>If you need a killer recipe, look no further.</p>
-            <button
-              type="button"
-              onClick={this.toggle}
-            >
-              Start Here
-            </button>
+            {!visible && (
+              <button
+                type="button"
+                onClick={this.toggle}
+              >
+                Start Here
+              </button>
+            )}
             {visible && (
               <Search
                 handleChange={this.handleChange}
@@ -71,27 +83,43 @@ class IndexPage extends React.Component {
             )}
           </div>
         </div>
-        <div className="recipe-area">
-          {!visible && <a href="#recipe">Recipes &gt;&gt;</a>}
+        <h2 id="recipe-section-title">Your Recipes</h2>
+        <div id="recipe">
           {recipes.map(recipe => (
-            <div key={recipe.id} id="recipe">
-              <h2>{recipe.title}</h2>
-              <img src={`https://spoonacular.com/recipeImages/${recipe.id}-240x150.jpg`} alt="recipe depiction" />
-              <p>{recipe.readyInMinutes}</p>
-              <p>{recipe.servings}</p>
-              <p>
-                Click
-                {' '}
-                <a
-                  href={recipe.sourceUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  here
-                </a>
-                {' '}
-                to see the full recipe instructions
-              </p>
+            <div key={recipe.id} className="recipe-area">
+              <div className="recipe-img">
+                <img src={`https://spoonacular.com/recipeImages/${recipe.id}-240x150.jpg`} alt="recipe depiction" />
+              </div>
+              <div className="recipe-desc">
+                <h2>{recipe.title}</h2>
+                <p>
+                  This recipe takes
+                  {' '}
+                  {recipe.readyInMinutes}
+                  {' '}
+                  minutes to prepare.
+                </p>
+                <p>
+                  This recipe makes
+                  {' '}
+                  {recipe.servings}
+                  {' '}
+                  {recipe.servings === 1 ? 'serving.' : 'servings.'}
+                </p>
+                <p>
+                  Click
+                  {' '}
+                  <a
+                    href={recipe.sourceUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    here
+                  </a>
+                  {' '}
+                  to see the full recipe instructions
+                </p>
+              </div>
             </div>
           ))}
         </div>
