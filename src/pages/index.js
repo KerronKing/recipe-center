@@ -45,7 +45,7 @@ class IndexPage extends React.Component {
         this.setState({ recipes: response.data.results });
         this.setState(prevState => ({ visible: !prevState.visible }));
 
-        const results = document.getElementById('recipe');
+        const results = document.getElementById('recipe-section-title');
         results.scrollIntoView({
           behavior: 'smooth',
         });
@@ -83,6 +83,7 @@ class IndexPage extends React.Component {
             )}
           </div>
         </div>
+        <h2 id="recipe-section-title">Your Recipes</h2>
         <div id="recipe">
           {recipes.map(recipe => (
             <div key={recipe.id} className="recipe-area">
