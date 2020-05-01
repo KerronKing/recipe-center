@@ -22,7 +22,7 @@ Recipe center is a simple one page app, currently built for desktops made for se
 
 ## Live Demo <span id="demo"></span>
 
-Live demo currently under construction.
+Click [here](https://kerronking.github.io/recipe-center/) to see a live demo.
 
 ## Built With <span id="built"></span>
 
@@ -34,7 +34,15 @@ This page was built using the following technologies:
 
 ## 🚀 Quick start <span id="quick"></span>
 
-1.  **Start developing.**
+1. **Clone the repo.**
+
+    Clone the repo using the following link:
+
+    ```
+    $ git clone https://github.com/KerronKing/recipe-center.git
+    ```
+
+2.  **Start developing.**
 
     Navigate into your the site’s directory and start it up.
 
@@ -43,7 +51,7 @@ This page was built using the following technologies:
     $ gatsby develop
     ```
 
-2.  **Open the source code and start editing!**
+3.  **Open the source code and start editing!**
 
     Your site is now running at `http://localhost:8000`!
 
