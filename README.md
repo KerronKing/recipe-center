@@ -13,6 +13,7 @@
 * [Quick Start](#quick)
 * [What's Inside](#inside)
 * [Contributing](#Contributing)
+* [Future Updates](#future)
 * [Show Your Support](#show)
 * [Author](#Author)
 
@@ -77,6 +78,12 @@ A quick look at the top-level files in this repo.
     ├── package.json
     └── README.md
 
+## Future Updates <span id="future"></span>
+
+- Media queries to be added.
+- Styling edits.
+- Add Logo.
+
 ## Contributing
 
 Contributions, issues and feature requests are welcome!
@@ -87,7 +94,7 @@ Feel free to check the [issues page](https://github.com/KerronKing/recipe-center
 
 Feel free to drop a :+1: to show your support. It'd be greatly appreciated it :pray:
 
-## LICENSE 
+## License 
 
 Gatsby is licensed under the MIT [license](./LICENSE).
 
